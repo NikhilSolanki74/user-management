@@ -13,7 +13,7 @@ passport.deserializeUser((user,done)=>{
 passport.use(new GoogleStrategy({
     clientID:process.env.CLIENT_ID,
     clientSecret:process.env.CLIENT_SECRET,
-    callbackURL:"http://user-management-ot5z.onrender.com/auth/google/callback",
+    callbackURL:process.env.CALLBACKURL,
     passReqToCallback:true
 },
 function(request, accessToken , refreshToken , profile ,done){
