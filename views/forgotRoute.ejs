@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style>
+        body{
+            background-color: rgb(229, 221, 221);
+        }
+    </style>
+</head>
+<body>
+  <%-include('./partials/Notification.js') %>
+    <div style=" display: flex; justify-content: center; margin-top: 15%;">
+        <form id="formElement" style="height: 200px; width: 300px;" action="/changeUserPassword" method="post">
+          <div class="mb-3">
+            <label class="form-label "><strong>Forgot Token</strong></label>
+            <input type="text" name="forgotToken" class="form-control" required>
+            <input type="hidden" name="email" value=<%=resp.email%>>
+          </div>
+          <div class="mb-3">
+            <label class="form-label "><strong>New Password</strong></label>
+            <input id="pass" type="password" name="newpassword" class="form-control" required>
+            <div id="msg" class="form-text">type your email and password carefully</div>
+          </div>
+          <div class="mb-3">
+            <label  class="form-label"><strong>Confirm New Password</strong></label>
+            <input id="cpass" type="password" name="password2" class="form-control" required>
+          </div>
+          <br>
+           <button type="submit" class="btn btn-primary ">Submit</button>
+           <br><br>
+           <a style="color:black; border: 2px solid black;text-decoration: none;" href="/login">&nbsp;&lt; Back &nbsp;</a>
+        </form>
+    </div> 
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    >
+        let match=()=>{
+
+
+        }
+        let form = document.getElementById('formElement')
+        let firstpass = document.getElementById('pass').value
+        let secondpass = document.getElementById('cpass').value
+        form.addEventListener('submit' , (event)=>{
+
+          if(firstpass !== secondpass){
+            document.getElementById('msg').textContent = "password didn't match"
+            event.preventDefault();
+          }else{
+            document.getElementById('msg').textContent = ""
+            // event.preventDefault();
+          }
+
+        })
+
+
+
+  </script>
+</body>
+</html>

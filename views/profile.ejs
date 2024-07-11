@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style>
+     
+      .go-back {
+            position: absolute;
+            top: 70px;
+            left: 10px;
+            background-color: #75aad8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .go-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+      <a href="/userRoute" class="go-back">Back to Homepage</a>
+      <div class="row" >
+          <%-include('./partials/Navbar.ejs')%>
+      </div> 
+       <div class="row" style="margin-top: 180px;">
+           <div class="col-4">
+             
+             <img height="400px" width="400px" style="overflow: hidden;" src="<%=profileData.image%>" alt="Profile Image">
+           </div>
+           <div class="col-8">
+              <div class="card">
+                <div class="card-body">
+                    <p class="card-text"><h6 style="display: inline;">Name</h6> : <%=profileData.name%></p>
+                    <p class="card-text"><h6 style="display: inline;">Email</h6> : <%=profileData.email%></p>
+                    <p class="card-text"><h6 style="display: inline;">Address</h6> : <%=profileData.address%></p>
+                    <p class="card-text"><h6 style="display: inline;">Phone</h6> : <%=profileData.phone%></p>
+                    <p class="card-text"><h6 style="display: inline;">Introduction</h6> : <%=profileData.desc.intro%></p>
+                    <% let date = new Date(profileData.createdOn) %>
+                    <% let d = date.getDate() %>
+                    <% let m = date.getMonth()+1 %>
+                    <% let y = date.getFullYear() %>
+                    <% if(m<=9){m='0'+m}%>
+                         
+                    <p class="card-text"><h6 style="display: inline;">Signup Date</h6> : <%=d+'-'+m+'-'+y %></p>
+                    
+                </div>
+              </div>
+
+           </div>
+       </div>
+
+    </div>
+
+
+
+</body>
+<script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+</html>

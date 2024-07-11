@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMw1mc-2aG3FFNUAelzgUqS9wgjwQETIXZKQ&s" type="image/x-icon">
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <title>Payment Details</title>
+    <style>
+        body {
+            font-family:  sans-serif;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #d8d5d5;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .go-back {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #75aad8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+ .go-back:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <script>
+        history.pushState(null, '', '/userRoute');
+
+        function startTimer(duration, display) {
+    let timer = duration, minutes, seconds;
+    const interval = setInterval(() => {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      if (--timer < 0) {
+        clearInterval(interval);
+        timerComplete(); 
+      }
+    }, 1000);
+  }
+
+  function timerComplete() {
+
+    window.location.href = '/userRoute?icon=info&msg='+ encodeURIComponent('Payment Session Timeout');
+    
+  }
+
+  window.onload = () => {
+    const eightMinutes = 10; 
+    const display = document.getElementById('timer');
+    startTimer(eightMinutes, display);
+  };
+      </script>
+    <%-include('./partials/Notification.js') %>
+    <a href="/userRoute" class="go-back">Go Back</a>
+    <div class="container">
+        <h2 style="font-family: 'Quicksand', sans-serif; color: #4b9bef;">Pay with card</h2>
+        <br>
+        <h3 style="font-family: 'Quicksand';margin-bottom: 8px;color: rgb(0 173 0);">Subscription Amount: 500 RS</h3>
+        <hr>
+        <span>Session Timeout in :<span class="timer" id="timer" style="color: #007bff;">07:59</span></span>
+        <br><br>
+        <form id="payment-form" method="POST" action="/add-new-card">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <input type="hidden" name="customer_id" id="cid" value="<%= cid %>">
+            </div>
+            <div style="margin: 22px 1px;" class="form-group">
+                <label for="card-element" style="margin: 9px 1px;">Card information</label>
+                <div id="card-element"></div>
+                <div id="card-errors" role="alert"></div>
+            </div>
+            <div class="form-group">
+                <label for="cardholder-name">Cardholder name</label>
+                <input type="text" id="cardholder-name" name="card_Name" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country or region</label>
+                <select id="country" width="200px" name="country" required>
+                    <option value="India">India</option>
+                    <option value="India">China</option>
+                    <option value="India">Japan</option>
+                    <option value="India">America</option>
+                    <option value="India">Nepal</option>
+
+                </select>
+            </div>
+            <button type="submit" class="btn" style="margin-bottom: 22px ; margin-top: 35px;">Pay</button>
+        </form>
+    </div>
+
+    <script>
+        const stripe = Stripe('pk_test_51PWWfj00wn2FeaExlr7ew2lFyeeBRIZJwxQNIwZihmeYvq9kPEIOcsE8kkUceQt0mu1YF207fBjtdmyOBrEbKYeQ00PeQoCgB1');
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
+
+        const form = document.getElementById('payment-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const {token, error} = await stripe.createToken(card, {
+                name: document.getElementById('cardholder-name').value
+            });
+
+            if (error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+                handleToken(token);
+            }
+        });
+
+        function handleToken(token) {
+            const form = document.getElementById('payment-form');
+            const hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+        }
+    </script>
+</body>
+</html>

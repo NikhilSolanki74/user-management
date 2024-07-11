@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMw1mc-2aG3FFNUAelzgUqS9wgjwQETIXZKQ&s" type="image/x-icon">
+
+    <style>
+        body{
+            background-color: rgb(229, 221, 221);
+        }
+        .google-btn {
+            width: 93%;
+    display: inline-flex; /* Use flexbox */
+    align-items: center; /* Center items vertically */
+    background: #4285F4;
+    color: white;
+    padding: 4px 10px; /* Adjust padding for better button size */
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+    </style>
+    <title>Login</title>
+  </head>
+  <body>
+    <script>
+
+      history.pushState(null, '', '/login');
+    </script>
+    <%-include('./partials/Notification.js') %>
+
+     <div style=" display: flex; justify-content: center; margin-top: 15%;">
+    
+         <form style="height: 200px; width: 300px;" action="/userLogin" method="post">
+           <div class="mb-3">
+             <label class="form-label "><strong> Email address</strong></label>
+             <input type="email" name="email" class="form-control" required>
+             <div  class="form-text">type your email and password carefully</div>
+           </div>
+           <div class="mb-3">
+             <label  class="form-label"><strong>Password</strong></label>
+             <input id='inputPassword' onchange={updatePass()} type="text" name="fakepassword" class="form-control" required>
+             <input id="realPassword"  type="hidden" name="password" >
+             
+             <input  onclick={showPass()}  type="checkbox"> Hide
+             <a style="color: brown; margin-left: 120px;" href="/forgotRoute"> Forgot Password</a>
+           </div>
+           <br>
+            <button type="submit"  class="btn btn-primary ">Submit</button>
+            <br><br>
+            <a style="color:black;" href="/">New user signup</a>
+            <br>
+            <a class="google-btn" href="/auth/google"><img width="35" height="35" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>Sign Up with Google</a>
+
+         </form>
+     </div>   
+     
+     <%-include('./partials/hidePass.js')%>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

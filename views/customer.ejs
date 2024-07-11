@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/7fc8b55b10.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMw1mc-2aG3FFNUAelzgUqS9wgjwQETIXZKQ&s" type="image/x-icon">
+
+    <title>Payment Information</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e8e8e8;
+        }
+        .container {
+            display: flex;
+            width: 80%; 
+            max-width: 1000px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .go-back {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #75aad8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .go-back:hover {
+            background-color: #0056b3;
+        }
+        /* .vip-features h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        } */
+        .vip-features {
+            flex: 1;
+            padding: 20px;
+            background: url('https://res.cloudinary.com/dzjvyptwz/image/upload/v1719643669/dypiaofrtgmk82wihzsf.jpg') no-repeat center center/cover;
+            color: white;
+            opacity: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .vip-features h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .vip-features ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+        .vip-features ul li {
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .vip-features ul li i {
+            margin-right: 10px;
+            color: #FFD700;
+        }
+        .payment-form {
+            flex: 1;
+            padding: 40px;
+            background-color: #f8f9f9;
+        }
+        .payment-form h2 {
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+            transform: translateY(2px);
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .payment-form .payment-method div {
+            margin-bottom: 10px;
+    
+        }
+    </style>
+</head>
+<body>
+    <a href="/userRoute" class="go-back">Go Back</a>
+    <div class="container">
+        <div class="vip-features">
+            <h2 style="color: #f7e998;">Why Become a VIP Member?</h2>
+           
+            <h2><i class="fas fa-crown" style="color: #FFD700;"></i> Membership Features</h2>
+            <ul style="text-align: center;">
+                <li><i class="fas fa-check"></i>Edit User Data with your account</li>
+                <!-- <li><i class="fas fa-check"></i>Delete Users</li> -->
+                <li><i class="fas fa-check"></i>Add New User Entries in Table</li>
+                <li><i class="fas fa-check"></i>Suspend Users or desable User</li>
+                <li><i class="fas fa-check"></i>Download PDF Data of Users</li>
+                <li><i class="fas fa-check"></i>Download Excel Data of Users</li>
+                <li><i class="fas fa-check"></i>Search Users by name,Id etc</li>
+            </ul>
+        </div>
+        <div class="payment-form">
+            <h2>Initialize Payment</h2>
+            <form id="user-details-form" action="/create-customer" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div>
+                        <input type="radio" id="card" name="payment-method" value="card" checked>
+                        <span for="card"><i class="fa-solid fa-credit-card"></i> Credit / Debit Card</span>
+                    </div>
+                    <div>
+                        <input type="radio" id="upi" name="payment-method" value="upi">
+                        <span for="upi"><i class="fa-brands fa-google-pay"></i> UPI Payment</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Next</button>
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

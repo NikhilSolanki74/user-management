@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Page</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMw1mc-2aG3FFNUAelzgUqS9wgjwQETIXZKQ&s" type="image/x-icon">
+  <script src="https://kit.fontawesome.com/7fc8b55b10.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+  <style>
+    #vip{
+      display: none;
+    }
+    strong{
+      color:#0b4485 ;
+    }
+    th.hd {
+      color: #0b4485;
+    }
+
+    .round {
+      border-radius: 3px;
+      border: 1px solid black;
+    }
+
+    td,
+    th {
+      border: 1px solid black;
+      padding: 20px;
+    }
+
+    #addbutton,
+    #takeScreenshot {
+      padding: 10px;
+      border: 1px solid black;
+      background-color: #1283ec;
+    }
+
+    .edit {
+      display: inline;
+    }
+
+    #um {
+      background-color: #ccf2f6;
+    }
+
+    #heading {
+      color: #352a25;
+    }
+
+    #kkk {
+      color: #352a25;
+      border: 0px solid black;
+      margin: 10px;
+      padding: 8px;
+    }
+
+    #yy {
+      color: #352a25;
+      border: 0px solid black;
+      margin: 10px;
+      padding: 21px;
+      padding-left: 44px;
+    }
+
+    #excel {
+      border-radius: 3px;
+      font-weight: 700;
+      color: #352a25;
+      border: 0px solid black;
+      margin: 7px;
+      padding-left: 74px;
+      margin-left: 82px;
+    }
+
+    #excelId {
+      border: 0px solid black;
+    }
+
+    #yyy {
+      color: #352a25;
+      border: 0px solid black;
+      margin: 10px;
+      padding: 12px;
+      padding-top: 17px;
+    }
+
+    .truncate-text {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    .expanded-text {
+      white-space: normal;
+    }
+
+    .container {
+      max-width: 1441px;
+    }
+
+    /* New Styles for Layout Consistency */
+    .header-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #f1f1f1;
+    }
+
+    .header-container button {
+      min-width: 100px;
+      padding: 10px;
+      margin: 5px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease;
+    }
+
+    .header-container button:hover {
+      background-color: #357ae8;
+    }
+
+    .search-filter {
+      flex: 1;
+      min-width: 200px;
+      margin: 5px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .table-container table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    @media (max-width: 600px) {
+      .header-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-container button,
+      .search-filter {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    history.pushState(null, '', '/adminRoute');
+  </script>
+  <%-include('./partials/Notification.js') %>
+  <div class="container">
+    <div class="row-2">
+      <%-include('./partials/Navbar.ejs') %>
+    </div>
+    <div class="row-8 mt-5">
+      <div class="header-container">
+        <div>
+          <label for="startDate"><strong>Start Date</strong></label>
+          <input type="date" id="startDate">
+          <label for="endDate"><strong>End Date</strong></label>
+          <input type="date" id="endDate">
+        </div>
+        <div>
+          <select class="p-2" style="border-radius:8px; border: 1px solid black; color: #08376B" id="filterBy">
+            <option value="name"> Name</option>
+            <option value="email"> Email</option>
+            <option value="id"> Id</option>
+            <option value="phone"> Phone</option>
+            <option value="address"> Address</option>
+          </select>
+          <input id="filter"
+            style="margin-bottom: 10px; height:40px; width: 250px; border-radius: 8px; border: 1px solid black;"
+            type="search" name="filterValue" id="search">
+          <button onclick="handleSearch()"
+            style="margin-bottom: 10px; height: 40px; border-radius: 8px; color:#08376B; background-color:rgb(255, 255, 255); border: 1px solid black;"><i
+              class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </div>
+        <button id="excel" onclick="downloadExcel()"
+          style="background-image:linear-gradient(to right, white, rgb(204, 236, 248)); color: #08376B; border: 1px solid black; padding: 7px; width: 105px;"><i
+            class="fa-solid fa-file-excel"></i> Excel</button>
+        <a id="takeScreenshot"
+          style="text-decoration: none; background-image: linear-gradient(to right, white, rgb(204, 236, 248)); margin-bottom: 1px; color: #08376B; border: 1px solid black; padding: 6px; border-radius: 3px;"
+          href="/downloadPDF"><i class="fa-solid fa-file-pdf"></i> Save PDF</a>
+        <a id="addbutton" class="round"
+          style="text-decoration: none; color: #08376B; border: 1px solid black; padding: 6px; background-image: linear-gradient(to right, white, rgb(204, 236, 248)); border-radius: 3px;"
+          href="/newEntry"><i class="fa-solid fa-user-plus"></i>Add User</a>
+      </div>
+
+      <div class="table-container mt-4">
+        <table id="dtable" class="table table-hover">
+          <tr>
+            <th class="hd" colspan="8"><i class="fa-solid fa-users"></i>&nbsp; Total User Registrations :<span id="tu">
+                <%=totalUser[0].allUser%>
+              </span>
+            </th>
+          </tr>
+          <tr id="tableHeadings">
+            <th class="hd"><i class="fa-solid fa-flag"></i> Sno</th>
+            <th class="hd"><i class="fa-solid fa-user-pen"></i> Name</th>
+            <th class="hd"><i class="fa-solid fa-id-card-clip"></i> Id</th>
+            <th class="hd"><i class="fa-solid fa-envelope"></i> Email</th>
+            <th class="hd"><i class="fa-solid fa-phone"></i> Phone</th>
+            <th class="hd"><i class="fa-solid fa-location-dot"></i> Address</th>
+            <th class="hd"><i class="fa-solid fa-comment-medical"></i> Description</th>
+            <th class="hd"><i class="fa-solid fa-location-crosshairs"></i> Action</th>
+          </tr>
+          <% let sno=1 %>
+          <% alldata.forEach((data) => {%>
+            <% let dt=new Date(data.createdOn) %>
+            <tr data-date='<%= Math.round(dt.getTime()/1000) %>'>
+              <td><%= sno%></td>
+              <td class="name"><%=data.name%></td>
+              <td class="id"><%=data._id%></td>
+              <td class="email"><%=data.email%></td>
+              <td class="phone"><%=data.phone%></td>
+              <td class="address"><%=data.address%></td>
+              <td class="truncate-text" onclick="toggleText(this)"><%=data.desc.intro%></td>
+              <td>
+                <% let color %>
+                <% let st %>
+                <% if(data.activeStatus) { %>
+                  <% color='rgb(67, 250, 123)' %>
+                  <% st='Active' %>
+                <% } else { %>
+                  <% color='rgb(189, 188, 188)' %>
+                  <% st='Suspand' %>
+                <% } %>
+                <form class="d-inline" action="/removeData/<%=data._id%>" method="post">
+                  <input type="submit" class="removebutton round mb-3" style="background-color: rgb(255, 255, 255);"
+                    value="Delete">
+                </form>
+                <form class="d-inline" action="/editData/<%= data._id%>" method="get">
+                  <input type="submit" class="edit round mb-3" style="background-color: rgb(255, 255, 255);" value="Edit">
+                </form>
+                <form class="d-inline" action="/editStatus/<%=data._id%>" method="post">
+                  <input type="submit" class="statusButton round" id="<%=sno++%>"
+                    style="background-color:<%=color%>; width: 110px" value="<%=st%>">
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    document.getElementById('startDate').value = document.getElementById('endDate').value = formattedDate;
+
+    async function handleSearch() {
+      let filter = document.getElementById('filter').value;
+      let filterBy = document.getElementById('filterBy').value;
+      let table = await document.querySelectorAll('.' + `${filterBy}`);
+      let stdt = new Date(document.getElementById('startDate').value);
+      let endt = new Date(document.getElementById('endDate').value);
+      stdt.setHours(0, 0, 0, 0);
+      endt.setHours(23, 59, 59, 0);
+
+      let startDate = Math.round(stdt.getTime() / 1000);
+      let endDate = Math.round(endt.getTime() / 1000);
+      let data = new RegExp(filter, 'i');
+      let count = 0;
+      table.forEach(element => {
+        let val = element.innerText;
+        if (data.test(val)) {
+          if (element.closest('tr').dataset.date > startDate && element.closest('tr').dataset.date < endDate) {
+            element.closest('tr').style.display = '';
+            count++;
+          } else {
+            element.closest('tr').style.display = 'none';
+          }
+        } else {
+          element.closest('tr').style.display = 'none';
+        }
+      });
+      document.getElementById('tu').innerText = count;
+      if (count == 0) {
+        document.getElementById('tableHeadings').style.display = 'none';
+      }
+    }
+
+    function toggleText(element) {
+      element.classList.toggle('expanded-text');
+    }
+
+    function downloadExcel() {
+      const table = document.getElementById('dtable');
+      const rows = table.querySelectorAll('tr');
+      let rowsArr = Array.from(rows);
+      rowsArr.splice(0, 2);
+      const data = [];
+      rowsArr.forEach((row, rowindex) => {
+        let rowData = [];
+        row.querySelectorAll('td, th').forEach((cell, index) => {
+          if (index < row.cells.length - 2 && index != 2) {
+            let dd = cell.textContent.trim();
+            rowData.push(dd);
+          }
+        });
+        rowData = rowData.join('\t');
+        data.push(rowData);
+      });
+
+      const excelData = data.join('\n');
+      const blob = new Blob([excelData], { type: 'application/vnd.ms-excel' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'table.xls';
+      link.click();
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>

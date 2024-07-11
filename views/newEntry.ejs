@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMw1mc-2aG3FFNUAelzgUqS9wgjwQETIXZKQ&s" type="image/x-icon">
+
+    <style>
+      * {
+        background-color: rgb(229, 221, 221);
+      }
+      .go-back {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #75aad8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .go-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <title>Add user page</title>
+  </head>
+
+  <body>
+    <a href="/adminRoute" class="go-back">Go Back</a>
+    <%-include('./partials/Notification.js') %>
+    <div style="display: flex; justify-content: center; margin-top: 2%">
+      <form
+        style="height: 250px; width: 300px"
+        action="/addUserByAdmin"
+        method="post"
+      >
+        <h3 class="d-inline mb-4">New User Entry</h3>
+        <br /><br />
+        <div class="mb-3">
+          <label class="form-label"><strong>Full Name</strong></label>
+          <input type="text" name="name" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><strong> Email address</strong></label>
+          <input type="email" name="email" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><strong>Password</strong></label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><strong>Contact Number</strong></label>
+          <input type="tel" name="phone" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><strong>Address</strong></label>
+          <input type="text" name="address" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><strong>Something about you</strong></label>
+          <textarea
+            type="text"
+            name="intro"
+            class="form-control"
+            value="i am a former bussiness developer and currently i am living in new york city, i have an exprerience of 10 years in application development for ios ,I did my nursing from wel alfraid unisco unite education and reserch center uk and the further internship done with pablo hercks vich private limited , i am confident about my application development skills"
+             
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label"
+            ><strong>Choose image URL</strong></label
+          >
+          <input
+            type="text"
+            name="image"
+            class="form-control"
+            placeholder="https://res.sample.com/dzjvyptwkz/1720674269521OIG.jpeg.jpg"
+            value=""
+            required
+          />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Add New User</button>
+     <br><br>
+      </form>
+    </div>
+    <!-- <div>wait a second</div> -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

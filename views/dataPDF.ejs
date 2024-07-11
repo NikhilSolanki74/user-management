@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <style>
+    
+    td,
+    th {
+      border: 2px solid black;
+      padding: 20px;
+    }
+  </style>
+<!-- margin-bottom: 20px;margin-left: 280px; -->
+</head>
+<body>
+    <div id="table" >
+      <table class="table" >
+          <h2 style="display: flex; justify-content: center;" >All User's Data</h2> 
+        <br>
+        <tr>
+          <th>sno</th>
+          <th>Name</th>
+          <th>Id</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th style="width: 300px;">Description</th>
+          <th>Contact No.</th>
+          <th>Sign up Date</th>
+        </tr>
+        <% let sno=1 %>
+          <% alldata.forEach((data)=>{%>
+            <tr>
+              <td>
+                <%= sno++ %>
+              </td>
+              <td>
+                <%=data.name%>
+              </td>
+              <td>
+                <%=data._id%>
+              </td>
+              <td>
+                <%=data.email%>
+              </td>  
+              <td>
+                <%=data.address%>
+              </td>  
+              <td>
+                <%=data.desc.intro%>
+              </td>  
+              <td>
+                <%=data.phone%>
+              </td>  
+              <td>
+                <!-- <% let arr = ['Jan' , 'Feb' , 'Mar' ,'Apr' , 'May' , 'Jun' , 'Jul' , 'Aug' ,'Sep' , 'Oct' ,'Nov' ,'Dec'] %> -->
+           <% let date = new Date(data.createdOn) %>
+           <% let d = date.getDate() %>
+           <% let m = date.getMonth()+1 %>
+           <% let y = date.getFullYear() %>
+           <% if(m<=9){m='0'+m}%>
+                <%=d+'-'+m+'-'+y %>
+              </td>          
+            </tr>
+            <%})%>
+      </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        
+      </script>
+</body>
+
+</html>

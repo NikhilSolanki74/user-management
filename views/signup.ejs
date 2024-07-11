@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMw1mc-2aG3FFNUAelzgUqS9wgjwQETIXZKQ&s" type="image/x-icon">
+
+    <style>
+        body{
+            background-color: rgb(229, 221, 221);
+        }
+    </style>
+    <title>Sign up</title>
+</head>
+<body>
+  <script>
+    history.pushState(null, '', '/');
+  </script>
+  <%-include('./partials/Notification.js') %>
+    <div style=" display: flex; justify-content: center; margin-top: 2%;">
+      <form style="height: 200px; width: 300px;" action="/userSignup" method="post" enctype="multipart/form-data">
+        <h2 class="mb-5">Sign Up Page</h2>
+          <div class="mb-3">
+            <label class="form-label "><strong>Full Name</strong></label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label "><strong> Email address</strong></label>
+            <input type="email" name="email" class="form-control" required>
+            <div  class="form-text">type your email and password carefully</div>
+          </div>
+          <div class="mb-3">
+            <label  class="form-label"><strong>Password</strong></label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label  class="form-label"><strong>Contact Number</strong></label>
+            <input type="tel" name="phone" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label  class="form-label"><strong>Address</strong></label>
+            <input type="text" name="address" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label  class="form-label"><strong>Something about you</strong></label>
+            <textarea type="text" name="intro" class="form-control"  value="i am a former bussiness developer and currently i am living in new york city, i have an exprerience of 10 years in application development for ios "></textarea>
+                        </div>
+          <div class="mb-3">
+            <label  class="form-label"><strong>Choose your profile image</strong></label>
+            <input type="file" name="image" class="form-control" >
+          </div> 
+          <br>
+          <div class="">
+            <button type="submit" class="btn btn-primary " style="margin-right: 90px;">Submit</button>
+            <a style="color:black;" href="/login">Already a User</a>
+          </div>
+           <br><br>
+           
+          
+                  </form>
+    </div>   
+    
+
+
+
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+
+</body>
+</html>
