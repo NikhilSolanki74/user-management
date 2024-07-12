@@ -64,7 +64,7 @@ router.get('/userRoute' ,Auth,userRoute)
 
 router.post('/addUserByAdmin',Auth, addUserByAdmin)
 
-router.post('/abcd' , forgotPassword)
+router.post('/forgotpass' , forgotPassword)
 
 router.post('/changeUserPassword' , changeUserPassword)
 

@@ -15,7 +15,7 @@ let getData =async (req,res)=>{
 
 let login = async (req,res)=>{
     let {email,password} = req.body
-    const data =await userModel.findOne({email:email} , 'status password otp email')
+    const data =await userModel.findOne({email:email} , 'status password otp email name')
     
     if(!data){
        return res.render('login',{
@@ -45,7 +45,87 @@ let login = async (req,res)=>{
         from:process.env.GOOGLE_EMAIL_ID,
         to:data.email,
         subject:'OTP for Login verification',
-        html:`<h2>This is your otp <h1 style="color:blue;">${data.otp}</h1></h2>`
+        // html:`<h2>This is your otp <h1 style="color:blue;">${data.otp}</h1></h2>`
+        html:`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #333333;
+        }
+        .otp-code {
+            font-size: 24px;
+            color: #007bff;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 12px;
+            color: #666666;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .content {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hawkscode Software</h1>
+        </div>
+        <div class="content">
+            <h2>Login OTP Verification</h2>
+            <p>Dear ${data.name},</p>
+            <p>We received a request to access your account. Use the following One Time Password (OTP) to complete your login:</p>
+            <div class="otp-code">${data.otp}</div>
+            <p>This OTP is valid for the next 10 minutes. If you did not request this, please ignore this email.</p>
+            <p>Thank you,</p>
+            <p>Team Hawkscode.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Hawkscode pvt. ltd. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+`
       }
       
       await transporter.sendMail(msg ,(err,info)=>{
@@ -139,7 +219,7 @@ let signup = async (req,res)=>{
 const forgotPassword =async (req,res)=>{
   let {email} = req.body
   //  console.log('this is the req.body ' , req.body)
-  data =await userModel.findOne({email:email}, "email")
+  data =await userModel.findOne({email:email}, "email name")
   //  console.log(data)
   if(!data){
     return res.render('login.ejs',{
@@ -168,19 +248,86 @@ let msg = {
   to: email,
   subject: 'Forgot token for password change',
   html: `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Forgot Token</title>
-  </head>
-  <body>
-      <h2>This is your forgot token, copy it carefully</h2>
-      :<h1 style="color:blue;"> ${forgotToken}</h1>
-  </body>
-  </html>
-  `
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #333333;
+        }
+        .token {
+            font-size: 24px;
+            color: #007bff;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 12px;
+            color: #666666;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .content {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hawkscode Software</h1>
+        </div>
+        <div class="content">
+            <h2>Reset Your Password</h2>
+            <p>Dear ${data.name},</p>
+            <p>We received a request to reset your password. Use the following token to reset your password:</p>
+            <div class="token">${forgotToken}</div>
+            <p>This token is valid for the next 30 minutes. If you did not request this, please ignore this email.</p>
+            <p>Thank you,</p>
+            <p>Team Hawkscode.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Hawkscode Pvt. Ltd. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+`
 };
 
     // console.log(msg)
