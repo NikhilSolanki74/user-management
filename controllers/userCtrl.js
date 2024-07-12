@@ -182,7 +182,7 @@ let signup = async (req,res)=>{
        const {name,email,password , intro, address , phone} = req.body
        console.log('condition 111 reqbodysignup ' , req.body, req.file)
        const image = req.file.filename;
-       if(!image){
+       if(image==''){
         image = "https://res.cloudinary.com/dzjvyptwz/image/upload/v1720618298/tqtszpuaarppeafyger3.jpg"
        }
       //  console.log("dfadf ",req.file.filename)
@@ -194,7 +194,7 @@ let signup = async (req,res)=>{
         // console.log('hash passs' , hash)
         let newpassword = hash;
         let otp = Math.floor((Math.random()*10000))
-        const data =new userModel({name,email,otp,password:newpassword, address, image:image , phone ,desc:{"intro":intro}})
+        const data =new userModel({name,email,otp,password:newpassword, address, image , phone ,desc:{"intro":intro}})
         let uniqueEmail = await userModel.findOne({email}, "email")
         // console.log('the id',newpassword)
          if(uniqueEmail){ return res.render('signup',{status:400 ,icon:'warning', msg:"this email is already exist"})}
@@ -680,10 +680,23 @@ try {
 }
 
 let profile = async (req,res)=>{
+  try {
     let id = req.params.id
+   if( id.length !== 24){
+    return res.redirect('/userRoute?icon=error&msg='+ encodeURIComponent('invalid Identity'))
+   }
     let profileData = await userModel.findById(id  ,"name email address image phone desc createdOn")
-    res.render('profile.ejs' , {profileData})
+    // console.log(profileData)
+    if(profileData == null){
+     return res.redirect('/userRoute?icon=error&msg='+ encodeURIComponent('User not Available'))
+    }
+   return res.render('profile.ejs' , {profileData})
     
+  } catch (error) {
+    console.log(error)
+    res.redirect('/userRoute?icon=error&msg='+ encodeURIComponent('Error in processing Request'))
+  }
+   
 }
 
 let uploadFile = (req,res)=>{
