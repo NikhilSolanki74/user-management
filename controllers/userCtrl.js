@@ -555,6 +555,9 @@ let editUserByAdmin  = async (req,res)=>{
     if(!intro){
       intro= olddata.desc.intro
     }
+    if(!image){
+      image = olddata.image
+    }
    
     let changeddata = await userModel.findByIdAndUpdate(userid , {name  , password:newpassword ,image ,address,phone ,desc:{"intro":intro}},{new:true})
     console.log('condition 220' , changeddata)
